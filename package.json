@@ -19,6 +19,9 @@
     "package.json",
     "README.md"
   ],
+  "bin": {
+    "causa": "./dist/causa.bin.ts"
+  },
   "scripts": {
     "prebuild": "rimraf ./dist",
     "build": "tsc -p tsconfig.build.json",
