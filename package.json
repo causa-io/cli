@@ -27,7 +27,10 @@
     "test": "NODE_OPTIONS=\"--experimental-vm-modules --no-warnings=ExperimentalWarning\" jest",
     "test:cov": "npm run test -- --coverage"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@causa/workspace": "^0.1.1",
+    "reflect-metadata": "^0.1.13"
+  },
   "devDependencies": {
     "@tsconfig/node18": "^2.0.0",
     "@types/jest": "^29.5.1",
