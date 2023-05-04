@@ -1,6 +1,6 @@
 import { WorkspaceContext } from '@causa/workspace';
 import { Command } from 'commander';
-import { CliContext } from './context.js';
+import { CliContext } from './context/index.js';
 import { createLogger } from './logger.js';
 
 /**

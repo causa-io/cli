@@ -5,13 +5,13 @@ import { mkdtemp, rm } from 'fs/promises';
 import 'jest-extended';
 import { resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { writeConfiguration } from '../utils.test.js';
 import { CliContext } from './context.js';
 import {
   MyFunction,
   MyFunctionImpl,
   outputObject,
 } from './context.module.test.js';
-import { writeConfiguration } from './utils.test.js';
 
 describe('CliContext', () => {
   describe('wrapAction', () => {

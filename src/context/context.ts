@@ -4,8 +4,8 @@ import {
   ImplementableFunctionDefinitionConstructor,
 } from '@causa/workspace/function-registry';
 import { Command } from 'commander';
+import { CliCommandOutputFunction } from '../function-decorators/index.js';
 import { WorkspaceFunctionCommandsBuilder } from './function-commands-builder.js';
-import { CliCommandOutputFunction } from './function-decorators/index.js';
 
 /**
  * The context describing an execution of the CLI, coupling a {@link WorkspaceContext} with a commander {@link Command}.

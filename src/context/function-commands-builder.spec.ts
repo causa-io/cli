@@ -2,17 +2,17 @@ import { WorkspaceFunction } from '@causa/workspace';
 import { jest } from '@jest/globals';
 import { Command } from 'commander';
 import 'jest-extended';
-import { DuplicateParentCommandDefinitionError } from './errors.js';
-import {
-  WorkspaceFunctionCommandRunner,
-  WorkspaceFunctionCommandsBuilder,
-} from './function-commands-builder.js';
 import {
   CliArgument,
   CliCommand,
   CliOption,
   ParentCliCommandDefinition,
-} from './function-decorators/index.js';
+} from '../function-decorators/index.js';
+import { DuplicateParentCommandDefinitionError } from './errors.js';
+import {
+  WorkspaceFunctionCommandRunner,
+  WorkspaceFunctionCommandsBuilder,
+} from './function-commands-builder.js';
 
 const outputFn = async () => {};
 

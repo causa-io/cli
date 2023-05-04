@@ -3,7 +3,7 @@ import {
   WorkspaceFunction,
 } from '@causa/workspace';
 import { IsString } from 'class-validator';
-import { CliArgument, CliCommand } from './function-decorators/index.js';
+import { CliArgument, CliCommand } from '../function-decorators/index.js';
 
 export const outputObject = {
   outputValue: undefined as undefined | string,

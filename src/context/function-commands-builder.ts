@@ -5,17 +5,17 @@ import {
 } from '@causa/workspace/function-registry';
 import { Command } from 'commander';
 import {
-  DuplicateParentCommandDefinitionError,
-  UnexpectedWorkspaceFunctionCommandArgumentsError,
-} from './errors.js';
-import {
   CliCommandDefinition,
   CliCommandOutputFunction,
   ParentCliCommandDefinition,
   getCliArgumentDefinitions,
   getCliCommandDefinition,
   getCliOptionDefinitions,
-} from './function-decorators/index.js';
+} from '../function-decorators/index.js';
+import {
+  DuplicateParentCommandDefinitionError,
+  UnexpectedWorkspaceFunctionCommandArgumentsError,
+} from './errors.js';
 
 /**
  * A function that handles a call to a workspace function to be run as a command.
