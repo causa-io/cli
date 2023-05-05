@@ -23,9 +23,11 @@ describe('command', () => {
         workspace: { name: 'my-workspace' },
         environments: { dev: { name: '🪛' } },
         causa: {
-          modules: [
-            fileURLToPath(new URL('./command.module.test.ts', import.meta.url)),
-          ],
+          modules: {
+            [fileURLToPath(
+              new URL('./command.module.test.ts', import.meta.url),
+            )]: '',
+          },
         },
       });
     });
