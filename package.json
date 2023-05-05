@@ -1,6 +1,6 @@
 {
   "name": "@causa/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Exposes the command line interface for the Causa (`cs`) command.",
   "repository": "github:causa-io/cli",
   "license": "ISC",
