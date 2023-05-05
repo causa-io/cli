@@ -77,9 +77,11 @@ describe('CliContext', () => {
       await writeConfiguration(tmpDir, './causa.yaml', {
         workspace: { name: 'my-workspace' },
         causa: {
-          modules: [
-            fileURLToPath(new URL('./context.module.test.ts', import.meta.url)),
-          ],
+          modules: {
+            [fileURLToPath(
+              new URL('./context.module.test.ts', import.meta.url),
+            )]: '',
+          },
         },
       });
 

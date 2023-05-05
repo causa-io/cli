@@ -31,7 +31,7 @@
     "test:cov": "npm run test -- --coverage"
   },
   "dependencies": {
-    "@causa/workspace": "^0.1.1",
+    "@causa/workspace": "^0.2.0",
     "commander": "^10.0.1",
     "pino": "^8.12.1",
     "pino-pretty": "^10.0.0",
