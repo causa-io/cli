@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.0 (2023-05-05)
+
 Fixes:
 
 - Fix typo in package `causa` executable.
