@@ -20,7 +20,7 @@
     "README.md"
   ],
   "bin": {
-    "causa": "./dist/causa.bin.ts"
+    "causa": "./dist/causa.bin.js"
   },
   "scripts": {
     "prebuild": "rimraf ./dist",
