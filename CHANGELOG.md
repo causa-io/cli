@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## v0.2.1 (2023-05-15)
+
+Fixes:
+
+- Make dependency on the `workspace` package looser, to avoid incompatibilities before version 1 is reached.
+
 ## v0.2.0 (2023-05-05)
 
 Fixes:
