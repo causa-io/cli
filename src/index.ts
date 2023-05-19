@@ -1,3 +1,4 @@
+export { runCli } from './cli.js';
 export {
   CliArgument,
   CliCommand,

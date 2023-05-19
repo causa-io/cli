@@ -1,7 +1,4 @@
-import { WorkspaceContext } from '@causa/workspace';
 import { Command } from 'commander';
-import { CliContext } from './context/index.js';
-import { createLogger } from './logger.js';
 
 /**
  * The name of the base command.
@@ -36,7 +33,7 @@ export type GlobalCliOptions = {
  *
  * @returns The `commander` {@link Command}.
  */
-function createBaseCommand(): Command {
+export function createBaseCommand(): Command {
   return new Command()
     .name(COMMAND_NAME)
     .option(
@@ -55,42 +52,11 @@ function createBaseCommand(): Command {
  *
  * @returns The parsed options.
  */
-function parseGlobalOptions(): GlobalCliOptions {
+export function parseGlobalOptions(): GlobalCliOptions {
   return createBaseCommand()
     .allowUnknownOption() // Command-specific options should be ignored.
     .helpOption(false) // The `--help` option shouldn't be caught.
     .exitOverride(() => {}) // The process should not be exited.
     .parse()
     .opts();
-}
-
-/**
- * Runs the CLI, by parsing global options and initializing a {@link CliContext} in the provided working directory.
- * The {@link WorkspaceContext} will be used to load modules according to the configuration, which will register
- * available commands.
- */
-export async function runCli(): Promise<void> {
-  const options = parseGlobalOptions();
-
-  const logger = createLogger({ verbose: options.verbose });
-
-  const program = createBaseCommand().allowExcessArguments(false);
-
-  let context: CliContext;
-  try {
-    const workspaceContext = await WorkspaceContext.init({
-      workingDirectory: options.workingDirectory,
-      environment: options.environment,
-      logger,
-    });
-    context = new CliContext(program, workspaceContext);
-  } catch (error: any) {
-    const message = error.message ?? error;
-    logger.error(`❌ ${message}`);
-    program.outputHelp();
-    process.exitCode = 1;
-    return;
-  }
-
-  await context.program.parseAsync();
 }
