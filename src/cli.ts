@@ -9,23 +9,32 @@ import { createLogger } from './logger.js';
  * available commands.
  *
  * @param args The arguments to pass to the CLI, without the node executable and the script name.
- * @param options Options for the CLI.
+ * @param optionsOrContext Options for the CLI, or an initialized {@link WorkspaceContext} that will be used as base.
  * @returns The exit code of the CLI.
  */
 export async function runCli(
   args: string[],
-  options: GlobalCliOptions = {},
+  optionsOrContext: GlobalCliOptions | WorkspaceContext = {},
 ): Promise<number> {
   const program = createBaseCommand().allowExcessArguments(false);
-  const logger = createLogger({ verbose: options.verbose });
+
+  const optionIsContext = optionsOrContext instanceof WorkspaceContext;
+  const options = optionIsContext ? {} : optionsOrContext;
+  let workspaceContext = optionIsContext ? optionsOrContext : undefined;
+
+  const logger =
+    workspaceContext?.logger ?? createLogger({ verbose: options.verbose });
 
   let context: CliContext;
   try {
-    const workspaceContext = await WorkspaceContext.init({
-      workingDirectory: options.workingDirectory,
-      environment: options.environment,
-      logger,
-    });
+    if (!workspaceContext) {
+      workspaceContext = await WorkspaceContext.init({
+        workingDirectory: options.workingDirectory,
+        environment: options.environment,
+        logger,
+      });
+    }
+
     context = new CliContext(program, workspaceContext);
   } catch (error: any) {
     const message = error.message ?? error;

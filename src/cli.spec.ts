@@ -1,5 +1,9 @@
+import { WorkspaceContext } from '@causa/workspace';
+import { jest } from '@jest/globals';
 import { mkdtemp, rm } from 'fs/promises';
+import 'jest-extended';
 import { resolve } from 'path';
+import { pino } from 'pino';
 import { fileURLToPath } from 'url';
 import { runCli } from './cli.js';
 import { outputObject } from './cli.module.test.js';
@@ -80,6 +84,22 @@ describe('command', () => {
 
       expect(actualExitCode).toEqual(0);
       expect(outputObject.functionArg).toEqual('🎉');
+    });
+
+    it('should accept a WorkspaceContext in place of options', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'info');
+
+      const actualExitCode = await runCli(['myFunction', '💉'], context);
+
+      expect(actualExitCode).toEqual(0);
+      expect(outputObject.functionArg).toEqual('💉');
+      expect(outputObject.workspace).toEqual(context);
+      expect(logger.info).toHaveBeenCalledOnceWith('👋');
     });
   });
 });
