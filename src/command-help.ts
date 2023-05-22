@@ -10,11 +10,5 @@ import { Logger } from 'pino';
  * @param logger The logger to use.
  */
 export function showHelpForCommand(command: Command, logger: Logger) {
-  const helpLines = command.helpInformation().split('\n');
-
-  if (helpLines.at(-1) === '') {
-    helpLines.pop();
-  }
-
-  helpLines.forEach((line) => logger.info(line));
+  logger.info(command.helpInformation());
 }

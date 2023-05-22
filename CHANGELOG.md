@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Ensure help for subcommands is displayed instead of the root `cs` command.
+
 ## v0.3.2 (2023-05-22)
 
 Fixes:
