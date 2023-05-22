@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.3.0 (2023-05-22)
+
 Breaking changes:
 
 - Replace the `causa` Node executable with `cs`, which exposes the bootstrap mechanism (see features).
