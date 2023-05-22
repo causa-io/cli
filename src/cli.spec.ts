@@ -101,5 +101,36 @@ describe('command', () => {
       expect(outputObject.workspace).toEqual(context);
       expect(logger.info).toHaveBeenCalledOnceWith('👋');
     });
+
+    it('should log a message and return 1 when an Commander error occurs', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'error');
+
+      const actualExitCode = await runCli(
+        ['myFunction', 'too', 'many'],
+        context,
+      );
+
+      expect(actualExitCode).toEqual(1);
+      expect(logger.error).toHaveBeenCalledOnce();
+    });
+
+    it('should log a message and return 1 when a function error occurs', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'error');
+
+      const actualExitCode = await runCli(['myFunction', '💥'], context);
+
+      expect(actualExitCode).toEqual(1);
+      expect(logger.error).toHaveBeenCalledOnceWith('❌ 🚨');
+    });
   });
 });

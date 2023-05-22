@@ -25,6 +25,10 @@ export abstract class MyFunction extends WorkspaceFunction<WorkspaceContext> {
 
 export class MyFunctionImpl extends MyFunction {
   _call(context: WorkspaceContext): WorkspaceContext {
+    if (this.arg === '💥') {
+      throw new Error('🚨');
+    }
+
     context.logger.info('👋');
     outputObject.functionArg = this.arg;
     return context;

@@ -47,30 +47,12 @@ export class CliContext {
       outputFn?: CliCommandOutputFunction<D>;
     } = {},
   ): Promise<void> {
-    await this.wrapAction(async () => {
-      await this.workspace.validateFunctionArguments(definition, args);
+    await this.workspace.validateFunctionArguments(definition, args);
 
-      const output = await this.workspace.call(definition, args);
+    const output = await this.workspace.call(definition, args);
 
-      if (options.outputFn) {
-        await options.outputFn(output);
-      }
-    });
-  }
-
-  /**
-   * Wraps any function meant to be run as the action for a CLI command.
-   * This catches errors and displays them using the context's logger.
-   *
-   * @param fn The function to wrap.
-   */
-  async wrapAction(fn: () => Promise<void>): Promise<void> {
-    try {
-      await fn();
-    } catch (error: any) {
-      const message = error.message ?? error;
-      this.workspace.logger.error(`❌ ${message}`);
-      process.exitCode = 1;
+    if (options.outputFn) {
+      await options.outputFn(output);
     }
   }
 }
