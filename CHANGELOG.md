@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+Features:
+
+- Show the command's help when running `cs` outside of a Causa workspace.
+
+Fixes:
+
+- Ensure `cs` in executed using `node`.
+- Properly log Commander errors.
+
 ## v0.3.0 (2023-05-22)
 
 Breaking changes:
