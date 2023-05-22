@@ -50,13 +50,15 @@ export function createBaseCommand(): Command {
 /**
  * Parses the global CLI options by running a dummy `commander` command, only configured with global options.
  *
+ * @param args The arguments to parse.
  * @returns The parsed options.
  */
-export function parseGlobalOptions(): GlobalCliOptions {
+export function parseGlobalOptions(args: string[]): GlobalCliOptions {
   return createBaseCommand()
     .allowUnknownOption() // Command-specific options should be ignored.
     .helpOption(false) // The `--help` option shouldn't be caught.
-    .exitOverride(() => {}) // The process should not be exited.
-    .parse()
+    .exitOverride() // The process should not be exited.
+    .configureOutput({ writeOut: () => {}, writeErr: () => {} }) // No output should be written.
+    .parse(args, { from: 'user' })
     .opts();
 }
