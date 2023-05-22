@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Ensure help is displayed when requested using `help` or `--help`.
+
 ## v0.3.1 (2023-05-22)
 
 Features:
