@@ -3,20 +3,34 @@ import {
   WorkspaceContext,
   WorkspaceFunction,
 } from '@causa/workspace';
-import { CliCommand } from './function-decorators/index.js';
+import { AllowMissing } from '@causa/workspace/validation';
+import { IsString } from 'class-validator';
+import { CliArgument, CliCommand } from './function-decorators/index.js';
 
 export const outputObject = {
   workspace: undefined as WorkspaceContext | undefined,
+  functionArg: undefined as string | undefined,
 };
 
 @CliCommand({
   name: 'myFunction',
   outputFn: (output) => (outputObject.workspace = output),
 })
-export abstract class MyFunction extends WorkspaceFunction<WorkspaceContext> {}
+export abstract class MyFunction extends WorkspaceFunction<WorkspaceContext> {
+  @AllowMissing()
+  @IsString()
+  @CliArgument({ name: '[arg]', position: 0 })
+  arg?: string;
+}
 
 export class MyFunctionImpl extends MyFunction {
   _call(context: WorkspaceContext): WorkspaceContext {
+    if (this.arg === '💥') {
+      throw new Error('🚨');
+    }
+
+    context.logger.info('👋');
+    outputObject.functionArg = this.arg;
     return context;
   }
 

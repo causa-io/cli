@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+Breaking changes:
+
+- Replace the `causa` Node executable with `cs`, which exposes the bootstrap mechanism (see features).
+
+Features:
+
+- Refactor and expose `runCli` such that it can be used it tests. It no longer manipulates the process's exit code and accepts user-provided arguments instead of getting them from `process.argv`.
+- Implement the bootstrap logic, looking for the workspace in which the CLI should be run, and initializing it (with its dependencies) if necessary.
+
 ## v0.2.1 (2023-05-15)
 
 Fixes:
