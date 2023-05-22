@@ -27,7 +27,10 @@ export async function runCli(
 
   const program = createBaseCommand()
     .allowExcessArguments(false)
-    .configureOutput({ writeErr: () => {}, writeOut: () => {} })
+    .configureOutput({
+      writeErr: (str) => logger.error(str),
+      writeOut: (str) => logger.info(str),
+    })
     .exitOverride();
 
   let isInitializationSuccessful = false;
@@ -46,14 +49,7 @@ export async function runCli(
     await context.program.parseAsync(args, { from: 'user' });
     return 0;
   } catch (error: any) {
-    if (
-      error instanceof CommanderError &&
-      error.code.startsWith('commander.help')
-    ) {
-      // Commander takes the liberty of printing the help, either due to an error or when requested by the user with
-      // `--help` or `help`. Commander outputs are disabled. This will output the help instead.
-      showHelpForCommand(program, logger);
-
+    if (error instanceof CommanderError) {
       return error.exitCode;
     }
 

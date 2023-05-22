@@ -116,7 +116,9 @@ describe('command', () => {
       );
 
       expect(actualExitCode).toEqual(1);
-      expect(logger.error).toHaveBeenCalledOnce();
+      expect(logger.error).toHaveBeenCalledOnceWith(
+        expect.stringContaining('too many arguments'),
+      );
     });
 
     it('should not log an error when using the help command', async () => {
@@ -151,7 +153,7 @@ describe('command', () => {
       expect(actualExitCode).toEqual(0);
       expect(logger.error).not.toHaveBeenCalled();
       expect(logger.info).toHaveBeenCalledWith(
-        expect.stringContaining('Usage:'),
+        expect.stringContaining('Usage: cs myFunction'),
       );
     });
 
@@ -181,8 +183,8 @@ describe('command', () => {
       const actualExitCode = await runCli([], context);
 
       expect(actualExitCode).toEqual(1);
-      expect(logger.error).not.toHaveBeenCalled();
-      expect(logger.info).toHaveBeenCalledWith(
+      expect(logger.info).not.toHaveBeenCalled();
+      expect(logger.error).toHaveBeenCalledWith(
         expect.stringContaining('Usage:'),
       );
     });
