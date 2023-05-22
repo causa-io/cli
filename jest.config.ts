@@ -7,7 +7,7 @@ const config: Config = {
     '**/*.{js,ts}',
     '!**/index.ts',
     '!**/*.spec.ts',
-    '!**/*.test.ts',
+    '!**/*.test.{ts,js}',
   ],
   coverageProvider: 'v8',
   rootDir: 'src',
