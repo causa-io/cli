@@ -126,25 +126,33 @@ describe('command', () => {
         logger,
       });
       jest.spyOn(logger, 'error');
+      jest.spyOn(logger, 'info');
 
       const actualExitCode = await runCli(['help'], context);
 
       expect(actualExitCode).toEqual(0);
       expect(logger.error).not.toHaveBeenCalled();
+      expect(logger.info).toHaveBeenCalledWith(
+        expect.stringContaining('Usage:'),
+      );
     });
 
-    it('should not log an error when using the --help argument', async () => {
+    it('should not log an error when using the --help option', async () => {
       const logger = pino();
       const context = await WorkspaceContext.init({
         workingDirectory: tmpDir,
         logger,
       });
       jest.spyOn(logger, 'error');
+      jest.spyOn(logger, 'info');
 
       const actualExitCode = await runCli(['myFunction', '--help'], context);
 
       expect(actualExitCode).toEqual(0);
       expect(logger.error).not.toHaveBeenCalled();
+      expect(logger.info).toHaveBeenCalledWith(
+        expect.stringContaining('Usage:'),
+      );
     });
 
     it('should log a message and return 1 when a function error occurs', async () => {

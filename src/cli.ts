@@ -50,11 +50,9 @@ export async function runCli(
       error instanceof CommanderError &&
       error.code.startsWith('commander.help')
     ) {
-      // When Commander takes the liberty of printing the help due to an error, it will use `writeErr`, which is
-      // disabled here. This will output the help anyway.
-      if (error.exitCode !== 0) {
-        showHelpForCommand(program, logger);
-      }
+      // Commander takes the liberty of printing the help, either due to an error or when requested by the user with
+      // `--help` or `help`. Commander outputs are disabled. This will output the help instead.
+      showHelpForCommand(program, logger);
 
       return error.exitCode;
     }
