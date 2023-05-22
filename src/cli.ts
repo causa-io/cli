@@ -1,4 +1,6 @@
 import { WorkspaceContext } from '@causa/workspace';
+import { CommanderError } from 'commander';
+import { showHelpForCommand } from './command-help.js';
 import { GlobalCliOptions, createBaseCommand } from './command.js';
 import { CliContext } from './context/index.js';
 import { createLogger } from './logger.js';
@@ -25,10 +27,7 @@ export async function runCli(
 
   const program = createBaseCommand()
     .allowExcessArguments(false)
-    .configureOutput({
-      writeErr: () => {},
-      writeOut: (str) => logger.info(str),
-    })
+    .configureOutput({ writeErr: () => {}, writeOut: () => {} })
     .exitOverride();
 
   let isInitializationSuccessful = false;
@@ -47,11 +46,24 @@ export async function runCli(
     await context.program.parseAsync(args, { from: 'user' });
     return 0;
   } catch (error: any) {
+    if (
+      error instanceof CommanderError &&
+      error.code.startsWith('commander.help')
+    ) {
+      // When Commander takes the liberty of printing the help due to an error, it will use `writeErr`, which is
+      // disabled here. This will output the help anyway.
+      if (error.exitCode !== 0) {
+        showHelpForCommand(program, logger);
+      }
+
+      return error.exitCode;
+    }
+
     const message = error.message ?? error;
     logger.error(`❌ ${message}`);
 
     if (!isInitializationSuccessful) {
-      program.outputHelp();
+      showHelpForCommand(program, logger);
     }
 
     return 1;

@@ -1,14 +1,20 @@
 import { jest } from '@jest/globals';
+import { Command } from 'commander';
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'fs/promises';
 import 'jest-extended';
 import { tmpdir } from 'os';
 import { join } from 'path';
+import { Logger } from 'pino';
 
 let runCliMock = jest.fn(() => 0);
 let runCliInWorkerThreadMock = jest.fn(() => 0);
+let showHelpForCommandMock = jest.fn();
 jest.unstable_mockModule('../cli.js', () => ({ runCli: runCliMock }));
 jest.unstable_mockModule('./worker.js', () => ({
   runCliInWorkerThread: runCliInWorkerThreadMock,
+}));
+jest.unstable_mockModule('../command-help.js', () => ({
+  showHelpForCommand: showHelpForCommandMock,
 }));
 
 describe('bootstrap', () => {
@@ -179,6 +185,19 @@ describe('bootstrap', () => {
       expect(actualExitCode).toEqual(1);
       expect(runCliMock).not.toHaveBeenCalled();
       expect(runCliInWorkerThreadMock).not.toHaveBeenCalled();
+    });
+
+    it('should print the help in case of a configuration error', async () => {
+      // Setting the `-v` argument also allows to check that the bootstrap-specific logger is correctly initialized.
+      const actualExitCode = await bootstrapCli(['-w', tmpdir(), '-v']);
+
+      expect(actualExitCode).toEqual(1);
+      expect(runCliMock).not.toHaveBeenCalled();
+      expect(runCliInWorkerThreadMock).not.toHaveBeenCalled();
+      expect(showHelpForCommandMock).toHaveBeenCalledOnceWith(
+        expect.toSatisfy((command: Command) => command.name() === 'cs'),
+        expect.toSatisfy((logger: Logger) => logger.level === 'debug'),
+      );
     });
   });
 });

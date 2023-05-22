@@ -119,6 +119,34 @@ describe('command', () => {
       expect(logger.error).toHaveBeenCalledOnce();
     });
 
+    it('should not log an error when using the help command', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'error');
+
+      const actualExitCode = await runCli(['help'], context);
+
+      expect(actualExitCode).toEqual(0);
+      expect(logger.error).not.toHaveBeenCalled();
+    });
+
+    it('should not log an error when using the --help argument', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'error');
+
+      const actualExitCode = await runCli(['myFunction', '--help'], context);
+
+      expect(actualExitCode).toEqual(0);
+      expect(logger.error).not.toHaveBeenCalled();
+    });
+
     it('should log a message and return 1 when a function error occurs', async () => {
       const logger = pino();
       const context = await WorkspaceContext.init({
@@ -131,6 +159,24 @@ describe('command', () => {
 
       expect(actualExitCode).toEqual(1);
       expect(logger.error).toHaveBeenCalledOnceWith('❌ 🚨');
+    });
+
+    it('should show help and return 1 when no argument is passed', async () => {
+      const logger = pino();
+      const context = await WorkspaceContext.init({
+        workingDirectory: tmpDir,
+        logger,
+      });
+      jest.spyOn(logger, 'error');
+      jest.spyOn(logger, 'info');
+
+      const actualExitCode = await runCli([], context);
+
+      expect(actualExitCode).toEqual(1);
+      expect(logger.error).not.toHaveBeenCalled();
+      expect(logger.info).toHaveBeenCalledWith(
+        expect.stringContaining('Usage:'),
+      );
     });
   });
 });

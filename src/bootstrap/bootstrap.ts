@@ -1,4 +1,5 @@
 import {
+  WorkspaceContextError,
   isModuleLocalPath,
   loadWorkspaceConfiguration,
 } from '@causa/workspace';
@@ -7,7 +8,12 @@ import { mkdir, rm, stat, writeFile } from 'fs/promises';
 import { join, resolve } from 'path';
 import { Logger } from 'pino';
 import { fileURLToPath } from 'url';
-import { GlobalCliOptions, parseGlobalOptions } from '../command.js';
+import { showHelpForCommand } from '../command-help.js';
+import {
+  GlobalCliOptions,
+  createBaseCommand,
+  parseGlobalOptions,
+} from '../command.js';
 import { createLogger } from '../logger.js';
 import { ModuleInstallationError } from './errors.js';
 import { runCliInWorkerThread } from './worker.js';
@@ -32,20 +38,29 @@ const CAUSA_CLI_LOCATION = 'node_modules/@causa/cli/dist/bootstrap/cli.js';
  * @returns The exit code of the CLI.
  */
 export async function bootstrapCli(args: string[]): Promise<number> {
-  const logger = createLogger();
-
   let cliOptions: GlobalCliOptions;
   let causaCliLocation: string | null;
+  let logger: Logger | undefined;
   try {
     cliOptions = parseGlobalOptions(args);
     const workingDirectory = resolve(
       cliOptions.workingDirectory ?? process.cwd(),
     );
 
+    logger = createLogger({ verbose: cliOptions.verbose });
+
     causaCliLocation = await setUpCausaFolderIfNeeded(workingDirectory, logger);
   } catch (error: any) {
+    const errorLogger = logger ?? createLogger();
+
     const message = error.message ?? error;
-    logger.error(`❌ ${message}`);
+    errorLogger.error(`❌ ${message}`);
+
+    if (error instanceof WorkspaceContextError) {
+      // This can be due to the CLI being run outside of a Causa workspace, in which case the user might need help.
+      showHelpForCommand(createBaseCommand(), errorLogger);
+    }
+
     return 1;
   }
 
