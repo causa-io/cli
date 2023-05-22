@@ -1,11 +1,9 @@
 import { parentPort, workerData } from 'node:worker_threads';
 
-export class MyError extends Error {}
-
 const { args, cliOptions } = workerData;
 
 if (cliOptions.workingDirectory === 'error') {
-  throw new MyError('🚨');
+  throw new Error('🚨');
 } else if (cliOptions.workingDirectory === 'exitCode') {
   process.exit(1);
 }
