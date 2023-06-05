@@ -9,7 +9,6 @@ const config: Config = {
     '!**/*.spec.ts',
     '!**/*.test.{ts,js}',
   ],
-  coverageProvider: 'v8',
   rootDir: 'src',
   testEnvironment: 'node',
   setupFilesAfterEnv: ['jest-extended/all'],
