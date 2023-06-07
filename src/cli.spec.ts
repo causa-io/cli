@@ -1,4 +1,4 @@
-import { WorkspaceContext } from '@causa/workspace';
+import { ModuleLoadingError, WorkspaceContext } from '@causa/workspace';
 import { jest } from '@jest/globals';
 import { mkdtemp, rm } from 'fs/promises';
 import 'jest-extended';
@@ -189,6 +189,20 @@ describe('command', () => {
       expect(logger.error).toHaveBeenCalledWith(
         expect.stringContaining('Usage:'),
       );
+    });
+
+    it('should rethrow a ModuleLoadingError when requested', async () => {
+      await writeConfiguration(tmpDir, 'causa.yaml', {
+        workspace: { name: 'my-workspace' },
+        causa: { modules: { pino: '0.0.1' } },
+      });
+
+      const actualPromise = runCli(['myFunction'], {
+        workingDirectory: tmpDir,
+        rethrowModuleLoadingError: true,
+      });
+
+      await expect(actualPromise).rejects.toThrow(ModuleLoadingError);
     });
   });
 });
