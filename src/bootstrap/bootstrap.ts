@@ -1,10 +1,12 @@
 import {
   WorkspaceContextError,
-  isModuleLocalPath,
   loadWorkspaceConfiguration,
 } from '@causa/workspace';
-import { exec } from 'child_process';
-import { mkdir, rm, stat, writeFile } from 'fs/promises';
+import {
+  CAUSA_FOLDER,
+  setUpCausaFolder,
+} from '@causa/workspace/initialization';
+import { stat } from 'fs/promises';
 import { join, resolve } from 'path';
 import { Logger } from 'pino';
 import { fileURLToPath } from 'url';
@@ -15,13 +17,7 @@ import {
   parseGlobalOptions,
 } from '../command.js';
 import { createLogger } from '../logger.js';
-import { ModuleInstallationError } from './errors.js';
 import { runCliInWorkerThread } from './worker.js';
-
-/**
- * The folder placed at the root of Causa workspaces, containing the npm installation.
- */
-const CAUSA_FOLDER = '.causa';
 
 /**
  * The expected location of the CLI script (which can be called as a worker thread), relative to the Causa folder.
@@ -123,88 +119,28 @@ async function setUpCausaFolderIfNeeded(
     `🎉 Could not find a workspace installation with CLI in '${causaFolder}', creating it.`,
   );
   const modules = configuration.get('causa.modules') ?? {};
-  await setUpCausaFolder(causaFolder, modules, logger);
+  await setUpCausaFolderWithCli(rootPath, modules, logger);
 
   return causaCliLocation;
 }
 
 /**
  * Initializes the Causa folder at the given location, installing the npm modules in the process.
+ * If not specified, the Causa CLI package will be added to the modules to install.
  *
- * @param causaFolder The location of the Causa folder to initialize.
+ * @param rootPath The path to the workspace root.
  * @param modules The modules to install in the Causa folder.
  * @param logger The logger to use.
  */
-async function setUpCausaFolder(
-  causaFolder: string,
+async function setUpCausaFolderWithCli(
+  rootPath: string,
   modules: Record<string, string>,
   logger: Logger,
 ): Promise<void> {
-  await mkdir(causaFolder, { recursive: true });
-
-  await makePackageFile(causaFolder, modules);
-
-  await installModules(causaFolder, logger);
-}
-
-/**
- * Creates the `package.json` file in the Causa folder, containing the given modules.
- * Modules that are local paths will be ignored. If not present, the `@causa/cli` module will be added.
- *
- * @param causaFolder The location of the Causa folder in which to create the package file.
- * @param modules The modules to include in the package file.
- */
-async function makePackageFile(
-  causaFolder: string,
-  modules: Record<string, string>,
-): Promise<void> {
-  const dependencies = { ...modules };
-
-  Object.keys(dependencies).forEach((moduleName) => {
-    if (isModuleLocalPath(moduleName)) {
-      delete dependencies[moduleName];
-    }
-  });
-
-  if (dependencies['@causa/cli'] === undefined) {
-    dependencies['@causa/cli'] = '*';
+  modules = { ...modules };
+  if (modules['@causa/cli'] === undefined) {
+    modules['@causa/cli'] = '*';
   }
 
-  const packagePath = join(causaFolder, 'package.json');
-  await writeFile(packagePath, JSON.stringify({ dependencies }));
-}
-
-/**
- * Installs the npm modules in the Causa folder, after removing the existing `node_modules` folder.
- *
- * @param causaFolder The location of the Causa folder in which to install the modules.
- * @param logger The logger to use.
- */
-async function installModules(
-  causaFolder: string,
-  logger: Logger,
-): Promise<void> {
-  const nodeModulesFolder = join(causaFolder, 'node_modules');
-
-  logger.debug(
-    `🔥 Removing existing node modules folder '${nodeModulesFolder}'.`,
-  );
-  await rm(nodeModulesFolder, { recursive: true, force: true });
-  await rm(join(causaFolder, 'package-lock.json'), { force: true });
-
-  logger.debug(`➕ Installing node modules in '${causaFolder}'.`);
-
-  await new Promise<void>((resolve, reject) => {
-    const child = exec('npm install --quiet', {
-      cwd: causaFolder,
-    });
-    child.stderr?.pipe(process.stderr);
-    child.on('close', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new ModuleInstallationError());
-      }
-    });
-  });
+  await setUpCausaFolder(rootPath, modules, logger);
 }

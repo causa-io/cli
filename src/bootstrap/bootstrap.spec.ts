@@ -35,8 +35,7 @@ describe('bootstrap', () => {
           workspace: { name: 'my-workspace' },
           causa: {
             modules: {
-              './some/relative/path': '',
-              '/some/absolute/path': '',
+              'local-package': 'file:/some/absolute/path',
               'is-even': '1.0.0',
             },
           },
@@ -59,6 +58,7 @@ describe('bootstrap', () => {
       expect(actualPackageDefinition).toEqual({
         dependencies: {
           '@causa/cli': '*',
+          'local-package': 'file:/some/absolute/path',
           'is-even': '1.0.0',
         },
       });
@@ -86,6 +86,7 @@ describe('bootstrap', () => {
       expect(actualPackageDefinition).toEqual({
         dependencies: {
           '@causa/cli': '*',
+          'local-package': 'file:/some/absolute/path',
           'is-even': '1.0.0',
         },
       });

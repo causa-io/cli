@@ -25,8 +25,10 @@ describe('command', () => {
         environments: { dev: { name: '🪛' } },
         causa: {
           modules: {
+            // Sneaky trick to import a local file as a module (which is not a valid package).
+            // The version should be a local path such that it is not checked.
             [fileURLToPath(new URL('./cli.module.test.ts', import.meta.url))]:
-              '',
+              'file:/some/path',
           },
         },
       });
