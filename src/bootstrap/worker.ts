@@ -1,5 +1,5 @@
 import { Worker } from 'worker_threads';
-import { GlobalCliOptions } from '../command.js';
+import { RunCliOptions } from '../cli.js';
 import { CliWorkerError } from './errors.js';
 
 /**
@@ -13,7 +13,7 @@ import { CliWorkerError } from './errors.js';
 export async function runCliInWorkerThread(
   causaCliLocation: string,
   args: string[],
-  cliOptions: GlobalCliOptions,
+  cliOptions: RunCliOptions,
 ): Promise<number> {
   const worker = new Worker(causaCliLocation, {
     workerData: { args, cliOptions },

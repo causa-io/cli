@@ -1,3 +1,4 @@
+import { IncompatibleModuleVersionError } from '@causa/workspace';
 import { jest } from '@jest/globals';
 import { Command } from 'commander';
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'fs/promises';
@@ -6,8 +7,8 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import { Logger } from 'pino';
 
-let runCliMock = jest.fn(() => 0);
-let runCliInWorkerThreadMock = jest.fn(() => 0);
+let runCliMock = jest.fn(async () => 0);
+let runCliInWorkerThreadMock = jest.fn(async () => 0);
 let showHelpForCommandMock = jest.fn();
 jest.unstable_mockModule('../cli.js', () => ({ runCli: runCliMock }));
 jest.unstable_mockModule('./worker.js', () => ({
@@ -35,8 +36,7 @@ describe('bootstrap', () => {
           workspace: { name: 'my-workspace' },
           causa: {
             modules: {
-              './some/relative/path': '',
-              '/some/absolute/path': '',
+              'local-package': 'file:/some/absolute/path',
               'is-even': '1.0.0',
             },
           },
@@ -59,6 +59,7 @@ describe('bootstrap', () => {
       expect(actualPackageDefinition).toEqual({
         dependencies: {
           '@causa/cli': '*',
+          'local-package': 'file:/some/absolute/path',
           'is-even': '1.0.0',
         },
       });
@@ -66,7 +67,7 @@ describe('bootstrap', () => {
       expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
-        { workingDirectory: tmpDir },
+        { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
       );
     }, 60000);
 
@@ -86,6 +87,7 @@ describe('bootstrap', () => {
       expect(actualPackageDefinition).toEqual({
         dependencies: {
           '@causa/cli': '*',
+          'local-package': 'file:/some/absolute/path',
           'is-even': '1.0.0',
         },
       });
@@ -94,7 +96,7 @@ describe('bootstrap', () => {
       expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
-        { workingDirectory: tmpDir },
+        { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
       );
     }, 60000);
 
@@ -121,7 +123,7 @@ describe('bootstrap', () => {
       expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
-        { workingDirectory: tmpDir },
+        { workingDirectory: tmpDir, rethrowModuleLoadingError: true },
       );
     });
 
@@ -175,7 +177,7 @@ describe('bootstrap', () => {
       expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
-        { workingDirectory: tmpDir },
+        { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
       );
     }, 60000);
 
@@ -197,6 +199,58 @@ describe('bootstrap', () => {
       expect(showHelpForCommandMock).toHaveBeenCalledOnceWith(
         expect.toSatisfy((command: Command) => command.name() === 'cs'),
         expect.toSatisfy((logger: Logger) => logger.level === 'debug'),
+      );
+    });
+
+    it('should reinstall dependencies when module versions do not match', async () => {
+      const cliDir = join(
+        tmpDir,
+        '.causa',
+        'node_modules',
+        '@causa',
+        'cli',
+        'dist',
+        'bootstrap',
+      );
+      const cliFile = join(cliDir, 'cli.js');
+      await mkdir(cliDir, { recursive: true });
+      // The presence of the CLI file is enough to consider the Causa folder as initialized.
+      await writeFile(cliFile, '🔨');
+      await writeFile(join(tmpDir, '.causa', 'package.json'), 'some-old-stuff');
+      const isEvenDir = join(tmpDir, '.causa', 'node_modules', 'is-even');
+      await mkdir(isEvenDir, { recursive: true });
+      await writeFile(
+        join(isEvenDir, 'package.json'),
+        JSON.stringify({ version: '0.0.1' }),
+      );
+      runCliInWorkerThreadMock.mockRejectedValueOnce(
+        new IncompatibleModuleVersionError('is-even', '0.0.1', '1.0.0'),
+      );
+
+      const actualExitCode = await bootstrapCli(['-w', tmpDir]);
+
+      expect(actualExitCode).toEqual(0);
+      const actualPackageFile = await readFile(
+        join(tmpDir, '.causa', 'package.json'),
+      );
+      const actualPackageDefinition = JSON.parse(actualPackageFile.toString());
+      expect(actualPackageDefinition).toEqual({
+        dependencies: {
+          '@causa/cli': '*',
+          'local-package': 'file:/some/absolute/path',
+          'is-even': '1.0.0',
+        },
+      });
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledTimes(2);
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledWith(
+        join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
+        ['-w', tmpDir],
+        { workingDirectory: tmpDir, rethrowModuleLoadingError: true },
+      );
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledWith(
+        join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
+        ['-w', tmpDir],
+        { workingDirectory: tmpDir },
       );
     });
   });

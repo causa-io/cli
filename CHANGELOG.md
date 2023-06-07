@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Reinstall modules from the configuration when an incompatible version or missing module is detected in the Causa folder.
+
 ## v0.3.3 (2023-05-22)
 
 Fixes:

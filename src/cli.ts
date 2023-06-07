@@ -1,9 +1,19 @@
-import { WorkspaceContext } from '@causa/workspace';
+import { ModuleLoadingError, WorkspaceContext } from '@causa/workspace';
 import { CommanderError } from 'commander';
 import { showHelpForCommand } from './command-help.js';
 import { GlobalCliOptions, createBaseCommand } from './command.js';
 import { CliContext } from './context/index.js';
 import { createLogger } from './logger.js';
+
+/**
+ * Options for the {@link runCli} function.
+ */
+export type RunCliOptions = GlobalCliOptions & {
+  /**
+   * Whether to rethrow a {@link ModuleLoadingError} that might be solved by reinstalling the modules when it occurs.
+   */
+  rethrowModuleLoadingError?: boolean;
+};
 
 /**
  * Runs the CLI by initializing a {@link CliContext} in the provided working directory.
@@ -16,7 +26,7 @@ import { createLogger } from './logger.js';
  */
 export async function runCli(
   args: string[],
-  optionsOrContext: GlobalCliOptions | WorkspaceContext = {},
+  optionsOrContext: RunCliOptions | WorkspaceContext = {},
 ): Promise<number> {
   const optionIsContext = optionsOrContext instanceof WorkspaceContext;
   const options = optionIsContext ? {} : optionsOrContext;
@@ -51,6 +61,14 @@ export async function runCli(
   } catch (error: any) {
     if (error instanceof CommanderError) {
       return error.exitCode;
+    }
+
+    if (
+      error instanceof ModuleLoadingError &&
+      error.requiresModuleInstall &&
+      options.rethrowModuleLoadingError
+    ) {
+      throw error;
     }
 
     const message = error.message ?? error;
