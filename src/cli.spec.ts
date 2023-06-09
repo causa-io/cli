@@ -101,7 +101,7 @@ describe('command', () => {
       expect(actualExitCode).toEqual(0);
       expect(outputObject.functionArg).toEqual('💉');
       expect(outputObject.workspace).toEqual(context);
-      expect(logger.info).toHaveBeenCalledOnceWith('👋');
+      expect(logger.info).toHaveBeenCalledExactlyOnceWith('👋');
     });
 
     it('should log a message and return 1 when an Commander error occurs', async () => {
@@ -118,7 +118,7 @@ describe('command', () => {
       );
 
       expect(actualExitCode).toEqual(1);
-      expect(logger.error).toHaveBeenCalledOnceWith(
+      expect(logger.error).toHaveBeenCalledExactlyOnceWith(
         expect.stringContaining('too many arguments'),
       );
     });
@@ -170,7 +170,7 @@ describe('command', () => {
       const actualExitCode = await runCli(['myFunction', '💥'], context);
 
       expect(actualExitCode).toEqual(1);
-      expect(logger.error).toHaveBeenCalledOnceWith('❌ 🚨');
+      expect(logger.error).toHaveBeenCalledExactlyOnceWith('❌ 🚨');
     });
 
     it('should show help and return 1 when no argument is passed', async () => {
