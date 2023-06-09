@@ -7,9 +7,9 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import { Logger } from 'pino';
 
-let runCliMock = jest.fn(async () => 0);
-let runCliInWorkerThreadMock = jest.fn(async () => 0);
-let showHelpForCommandMock = jest.fn();
+const runCliMock = jest.fn(async () => 0);
+const runCliInWorkerThreadMock = jest.fn(async () => 0);
+const showHelpForCommandMock = jest.fn();
 jest.unstable_mockModule('../cli.js', () => ({ runCli: runCliMock }));
 jest.unstable_mockModule('./worker.js', () => ({
   runCliInWorkerThread: runCliInWorkerThreadMock,

@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-empty-function: 0 */
 import 'jest-extended';
 import { CliOption, getCliOptionDefinitions } from './option.decorator.js';
 

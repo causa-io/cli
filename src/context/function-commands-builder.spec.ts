@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-empty-function: 0 */
 import { WorkspaceFunction } from '@causa/workspace';
 import { jest } from '@jest/globals';
 import { Command } from 'commander';
