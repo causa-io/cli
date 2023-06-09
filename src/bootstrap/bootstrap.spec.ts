@@ -64,7 +64,7 @@ describe('bootstrap', () => {
         },
       });
       expect(runCliMock).not.toHaveBeenCalled();
-      expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledExactlyOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
         { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
@@ -93,7 +93,7 @@ describe('bootstrap', () => {
       });
       await expect(stat(fileToDelete)).rejects.toThrow('ENOENT');
       expect(runCliMock).not.toHaveBeenCalled();
-      expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledExactlyOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
         { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
@@ -120,7 +120,7 @@ describe('bootstrap', () => {
       );
       expect(actualPackageFile.toString()).toEqual('some-old-stuff');
       expect(runCliMock).not.toHaveBeenCalled();
-      expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledExactlyOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
         { workingDirectory: tmpDir, rethrowModuleLoadingError: true },
@@ -174,7 +174,7 @@ describe('bootstrap', () => {
         },
       });
       expect(runCliMock).not.toHaveBeenCalled();
-      expect(runCliInWorkerThreadMock).toHaveBeenCalledOnceWith(
+      expect(runCliInWorkerThreadMock).toHaveBeenCalledExactlyOnceWith(
         join(tmpDir, '.causa', 'node_modules/@causa/cli/dist/bootstrap/cli.js'),
         ['-w', tmpDir],
         { workingDirectory: tmpDir, rethrowModuleLoadingError: false },
@@ -196,7 +196,7 @@ describe('bootstrap', () => {
       expect(actualExitCode).toEqual(1);
       expect(runCliMock).not.toHaveBeenCalled();
       expect(runCliInWorkerThreadMock).not.toHaveBeenCalled();
-      expect(showHelpForCommandMock).toHaveBeenCalledOnceWith(
+      expect(showHelpForCommandMock).toHaveBeenCalledExactlyOnceWith(
         expect.toSatisfy((command: Command) => command.name() === 'cs'),
         expect.toSatisfy((logger: Logger) => logger.level === 'debug'),
       );

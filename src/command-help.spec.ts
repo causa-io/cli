@@ -13,7 +13,7 @@ describe('command-help', () => {
 
       showHelpForCommand(command, logger);
 
-      expect(logger.info).toHaveBeenCalledOnceWith(
+      expect(logger.info).toHaveBeenCalledExactlyOnceWith(
         expect.stringContaining('my-command'),
       );
     });
