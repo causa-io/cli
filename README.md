@@ -10,9 +10,11 @@ Examples of features provided by Causa include:
 
 This document provides an overview of how to set up a Causa workspace and the CLI, as well as the core functionalities exposed by the CLI. This is not an exhaustive list, as other Causa modules provide additional language-specific and project type-specific features.
 
-## 🎉 Installation
+## ➕ Requirements
 
 The Causa CLI requires [Node.js](https://nodejs.org/) and npm (which comes bundled with Node.js). We recommend installing Node.js using a version manager, such as [asdf](https://asdf-vm.com/) and its [nodejs](https://github.com/asdf-vm/asdf-nodejs) plugin.
+
+## 🎉 Installation
 
 Once Node.js and npm have been installed, the Causa CLI can be installed by running:
 
