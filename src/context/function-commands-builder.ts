@@ -240,7 +240,7 @@ export class WorkspaceFunctionCommandsBuilder {
       WorkspaceFunction<any>
     >,
   ): Record<string, string> {
-    let optionsMapping: Record<string, string> = {};
+    const optionsMapping: Record<string, string> = {};
 
     getCliOptionDefinitions(definition).forEach((optionDefinition) => {
       const option = command.createOption(
@@ -276,7 +276,7 @@ export class WorkspaceFunctionCommandsBuilder {
       );
     }
 
-    const [options, _command] = commandArgs.splice(-2);
+    const [options] = commandArgs.splice(-2);
 
     const args: Record<string, any> = {};
 

@@ -4,7 +4,7 @@ import { runCliInWorkerThread } from './worker.js';
 
 describe('worker', () => {
   describe('runCliInWorkerThread', () => {
-    let testCliLocation = fileURLToPath(
+    const testCliLocation = fileURLToPath(
       new URL('./worker.cli.test.js', import.meta.url),
     );
 
