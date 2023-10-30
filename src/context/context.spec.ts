@@ -4,7 +4,8 @@ import { jest } from '@jest/globals';
 import { Command } from 'commander';
 import { mkdtemp, rm } from 'fs/promises';
 import 'jest-extended';
-import { resolve } from 'path';
+import { tmpdir } from 'os';
+import { join } from 'path';
 import { fileURLToPath } from 'url';
 import { writeConfiguration } from '../utils.test.js';
 import { CliContext } from './context.js';
@@ -25,7 +26,7 @@ describe('CliContext', () => {
     beforeEach(async () => {
       initialExitCode = process.exitCode;
 
-      tmpDir = resolve(await mkdtemp('causa-tests-'));
+      tmpDir = await mkdtemp(join(tmpdir(), 'causa-tests-'));
       await writeConfiguration(tmpDir, './causa.yaml', {
         workspace: { name: 'my-workspace' },
         causa: {
