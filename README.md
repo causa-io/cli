@@ -44,7 +44,7 @@ workspace:
 
 causa:
   modules:
-    '@causa/workspace-core': '>= 0.6.0 < 1.0.0'
+    '@causa/workspace-core': '>= 0.18.0 < 1.0.0'
 ```
 
 Causa configuration files should be named `causa.yaml` and can optionally contain a dot-separated suffix, e.g. `causa.environments.yaml`. While several configuration files can coexist (they will be merged), a single one should define the `workspace.name`.
