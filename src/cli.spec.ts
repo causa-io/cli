@@ -2,7 +2,8 @@ import { ModuleLoadingError, WorkspaceContext } from '@causa/workspace';
 import { jest } from '@jest/globals';
 import { mkdtemp, rm } from 'fs/promises';
 import 'jest-extended';
-import { resolve } from 'path';
+import { tmpdir } from 'os';
+import { join } from 'path';
 import { pino } from 'pino';
 import { fileURLToPath } from 'url';
 import { runCli } from './cli.js';
@@ -19,7 +20,7 @@ describe('command', () => {
       outputObject.workspace = undefined;
       outputObject.functionArg = undefined;
 
-      tmpDir = resolve(await mkdtemp('causa-tests-'));
+      tmpDir = await mkdtemp(join(tmpdir(), 'causa-tests-'));
       await writeConfiguration(tmpDir, 'causa.yaml', {
         workspace: { name: 'my-workspace' },
         environments: { dev: { name: '🪛' } },
@@ -50,7 +51,8 @@ describe('command', () => {
       const actualExitCode = await runCli(['myFunction']);
 
       expect(actualExitCode).toEqual(0);
-      expect(outputObject.workspace?.rootPath).toEqual(tmpDir);
+      // Using `cwd()` instead of `tmpDir` because it might be a link, which is resolved by `cwd()`.
+      expect(outputObject.workspace?.rootPath).toEqual(process.cwd());
       expect(outputObject.workspace?.projectPath).toBeNull();
       expect(outputObject.workspace?.environment).toBeNull();
       process.chdir(initialCwd);
