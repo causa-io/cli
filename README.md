@@ -161,6 +161,18 @@ No emulator is provided by default as they are tech stack-specific. For example,
 
 The `cs emulators list` command returns the list of available emulators, loaded from the Causa modules.
 
+### Documentation
+
+One of the goals of Causa configuration files is also to provide metadata that can be used for documentation generation.
+
+#### `cs openapi`
+
+If some projects in the repository expose HTTP endpoints, the OpenAPI documentation for those endpoints can be generated using `cs openapi generateSpecification`.
+
+The implementation of OpenAPI generation is language-specific and will required the corresponding Causa module.
+
+When run from within a project, only the OpenAPI specification for the project will be generated. When run at the workspace level, the OpenAPI documents for all relevant projects will be generated and merged into a single document.
+
 ### Infrastructure and environments
 
 One of the strengths of a Causa workspace is being able to manage the entire span of a production system. This includes deploying new features and bug fixes to staging environments for testing. This section presents infrastructure-related `cs` commands.
