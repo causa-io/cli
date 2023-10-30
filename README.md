@@ -44,7 +44,7 @@ workspace:
 
 causa:
   modules:
-    '@causa/workspace-core': '>= 0.6.0 < 1.0.0'
+    '@causa/workspace-core': '>= 0.18.0 < 1.0.0'
 ```
 
 Causa configuration files should be named `causa.yaml` and can optionally contain a dot-separated suffix, e.g. `causa.environments.yaml`. While several configuration files can coexist (they will be merged), a single one should define the `workspace.name`.
@@ -160,6 +160,18 @@ Testing usually requires mocks or in-memory versions of databases and other serv
 No emulator is provided by default as they are tech stack-specific. For example, the [google module](https://github.com/causa-io/workspace-module-google) will expose various GCP emulators.
 
 The `cs emulators list` command returns the list of available emulators, loaded from the Causa modules.
+
+### Documentation
+
+One of the goals of Causa configuration files is also to provide metadata that can be used for documentation generation.
+
+#### `cs openapi`
+
+If some projects in the repository expose HTTP endpoints, the OpenAPI documentation for those endpoints can be generated using `cs openapi generateSpecification`.
+
+The implementation of OpenAPI generation is language-specific and will required the corresponding Causa module.
+
+When run from within a project, only the OpenAPI specification for the project will be generated. When run at the workspace level, the OpenAPI documents for all relevant projects will be generated and merged into a single document.
 
 ### Infrastructure and environments
 
