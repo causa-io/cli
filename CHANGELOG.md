@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+Chore:
+
+- Set up Causa for the repository.
+- Upgrade dependencies.
+
 ## v0.4.0 (2023-06-07)
 
 Features:
