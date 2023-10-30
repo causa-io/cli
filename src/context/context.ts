@@ -11,7 +11,10 @@ import { WorkspaceFunctionCommandsBuilder } from './function-commands-builder.js
  * The context describing an execution of the CLI, coupling a {@link WorkspaceContext} with a commander {@link Command}.
  */
 export class CliContext {
-  constructor(readonly program: Command, readonly workspace: WorkspaceContext) {
+  constructor(
+    readonly program: Command,
+    readonly workspace: WorkspaceContext,
+  ) {
     this.buildCommandsFromFunctions();
   }
 
