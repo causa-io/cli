@@ -6,6 +6,10 @@ Breaking change:
 
 - Drop support for Node.js 16.
 
+Features:
+
+- Log a debug message with the stack trace upon error.
+
 Chore:
 
 - Upgrade dependencies.

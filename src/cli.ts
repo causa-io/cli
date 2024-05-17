@@ -73,6 +73,7 @@ export async function runCli(
 
     const message = error.message ?? error;
     logger.error(`❌ ${message}`);
+    logger.debug(error.stack);
 
     if (!isInitializationSuccessful) {
       showHelpForCommand(program, logger);
