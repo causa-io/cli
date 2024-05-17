@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.5.0 (2024-05-17)
+
 Breaking change:
 
 - Drop support for Node.js 16.
