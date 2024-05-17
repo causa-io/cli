@@ -168,11 +168,15 @@ describe('command', () => {
         logger,
       });
       jest.spyOn(logger, 'error');
+      jest.spyOn(logger, 'debug');
 
       const actualExitCode = await runCli(['myFunction', '💥'], context);
 
       expect(actualExitCode).toEqual(1);
       expect(logger.error).toHaveBeenCalledExactlyOnceWith('❌ 🚨');
+      expect(logger.debug).toHaveBeenCalledExactlyOnceWith(
+        expect.stringContaining('MyFunctionImpl._call'),
+      );
     });
 
     it('should show help and return 1 when no argument is passed', async () => {
