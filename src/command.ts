@@ -54,14 +54,11 @@ export function createBaseCommand(): Command {
  * @returns The parsed options.
  */
 export function parseGlobalOptions(args: string[]): GlobalCliOptions {
-  return (
-    createBaseCommand()
-      .allowUnknownOption() // Command-specific options should be ignored.
-      .helpOption(false) // The `--help` option shouldn't be caught.
-      .exitOverride() // The process should not be exited.
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .configureOutput({ writeOut: () => {}, writeErr: () => {} }) // No output should be written.
-      .parse(args, { from: 'user' })
-      .opts()
-  );
+  return createBaseCommand()
+    .allowUnknownOption() // Command-specific options should be ignored.
+    .helpOption(false) // The `--help` option shouldn't be caught.
+    .exitOverride() // The process should not be exited.
+    .configureOutput({ writeOut: () => {}, writeErr: () => {} }) // No output should be written.
+    .parse(args, { from: 'user' })
+    .opts();
 }
