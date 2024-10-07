@@ -1,4 +1,4 @@
-import { ParentCliCommandDefinition } from '../function-decorators/index.js';
+import type { ParentCliCommandDefinition } from '../function-decorators/index.js';
 
 /**
  * An error thrown when two definitions exists of a parent command with the same name.

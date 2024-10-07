@@ -9,12 +9,12 @@ import {
 } from '@causa/workspace/initialization';
 import { stat } from 'fs/promises';
 import { join, resolve } from 'path';
-import { Logger } from 'pino';
+import type { Logger } from 'pino';
 import { fileURLToPath } from 'url';
-import { RunCliOptions } from '../cli.js';
+import type { RunCliOptions } from '../cli.js';
 import { showHelpForCommand } from '../command-help.js';
 import {
-  GlobalCliOptions,
+  type GlobalCliOptions,
   createBaseCommand,
   parseGlobalOptions,
 } from '../command.js';

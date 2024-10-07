@@ -5,7 +5,7 @@ import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'fs/promises';
 import 'jest-extended';
 import { tmpdir } from 'os';
 import { join } from 'path';
-import { Logger } from 'pino';
+import type { Logger } from 'pino';
 
 const runCliMock = jest.fn(async () => 0);
 const runCliInWorkerThreadMock = jest.fn(async () => 0);

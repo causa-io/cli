@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-empty-function: 0 */
 import {
   CliCommand,
-  ParentCliCommandDefinition,
+  type ParentCliCommandDefinition,
   getCliCommandDefinition,
 } from './command.decorator.js';
 

@@ -1,5 +1,5 @@
 import {
-  ModuleRegistrationFunction,
+  type ModuleRegistrationFunction,
   WorkspaceContext,
   WorkspaceFunction,
 } from '@causa/workspace';

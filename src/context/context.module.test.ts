@@ -1,5 +1,5 @@
 import {
-  ModuleRegistrationFunction,
+  type ModuleRegistrationFunction,
   WorkspaceFunction,
 } from '@causa/workspace';
 import { IsString } from 'class-validator';
