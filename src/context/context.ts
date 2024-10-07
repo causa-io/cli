@@ -55,7 +55,7 @@ export class CliContext {
     const output = await this.workspace.call(definition, args);
 
     if (options.outputFn) {
-      await options.outputFn(output);
+      await options.outputFn(output, args);
     }
   }
 }

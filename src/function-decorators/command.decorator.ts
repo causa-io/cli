@@ -1,5 +1,6 @@
 import { WorkspaceFunction } from '@causa/workspace';
 import type {
+  ImplementableFunctionArguments,
   ImplementableFunctionDefinitionConstructor,
   ImplementableFunctionReturnType,
 } from '@causa/workspace/function-registry';
@@ -24,6 +25,7 @@ export type ParentCliCommandDefinition = Pick<
  */
 export type CliCommandOutputFunction<D extends WorkspaceFunction<any>> = (
   output: Awaited<ImplementableFunctionReturnType<D>>,
+  args: ImplementableFunctionArguments<D>,
 ) => Promise<any> | any;
 
 /**

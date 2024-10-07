@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Features:
+
+- Pass function arguments to the `outputFn` of `@CliCommand`s.
+
 ## v0.5.0 (2024-05-17)
 
 Breaking change:
