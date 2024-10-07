@@ -62,14 +62,21 @@ describe('CliContext', () => {
 
     it('should run the function and call the output function', async () => {
       let output!: string;
+      let args!: any;
 
       await context.runWorkspaceFunctionAsAction(
         MyFunction,
         { arg: '🎉' },
-        { outputFn: (o) => (output = o) },
+        {
+          outputFn: (o, a) => {
+            output = o;
+            args = a;
+          },
+        },
       );
 
       expect(output).toEqual('🎉');
+      expect(args).toEqual({ arg: '🎉' });
       expect(process.exitCode).toEqual(initialExitCode);
     });
 
