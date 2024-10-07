@@ -15,7 +15,7 @@ const config = {
   extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['js', 'ts'],
   transform: {
-    '^.+\\.ts$': ['ts-jest', { useESM: true }],
+    '^.+\\.(t|j)s?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
