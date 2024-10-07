@@ -38,6 +38,8 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@swc/core": "^1.7.26",
+    "@swc/jest": "^0.2.36",
     "@tsconfig/node20": "^20.1.4",
     "@types/jest": "^29.5.13",
     "@types/node": "^18.19.54",
