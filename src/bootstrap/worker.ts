@@ -1,5 +1,5 @@
 import { Worker } from 'worker_threads';
-import { RunCliOptions } from '../cli.js';
+import type { RunCliOptions } from '../cli.js';
 import { CliWorkerError } from './errors.js';
 
 /**

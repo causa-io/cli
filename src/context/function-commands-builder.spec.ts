@@ -7,11 +7,11 @@ import {
   CliArgument,
   CliCommand,
   CliOption,
-  ParentCliCommandDefinition,
+  type ParentCliCommandDefinition,
 } from '../function-decorators/index.js';
 import { DuplicateParentCommandDefinitionError } from './errors.js';
 import {
-  WorkspaceFunctionCommandRunner,
+  type WorkspaceFunctionCommandRunner,
   WorkspaceFunctionCommandsBuilder,
 } from './function-commands-builder.js';
 

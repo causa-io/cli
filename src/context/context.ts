@@ -1,10 +1,10 @@
 import { WorkspaceContext, WorkspaceFunction } from '@causa/workspace';
-import {
+import type {
   ImplementableFunctionArguments,
   ImplementableFunctionDefinitionConstructor,
 } from '@causa/workspace/function-registry';
 import { Command } from 'commander';
-import { CliCommandOutputFunction } from '../function-decorators/index.js';
+import type { CliCommandOutputFunction } from '../function-decorators/index.js';
 import { WorkspaceFunctionCommandsBuilder } from './function-commands-builder.js';
 
 /**

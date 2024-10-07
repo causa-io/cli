@@ -1,5 +1,5 @@
 import { WorkspaceFunction } from '@causa/workspace';
-import {
+import type {
   ImplementableFunctionDefinitionConstructor,
   ImplementableFunctionReturnType,
 } from '@causa/workspace/function-registry';

@@ -1,18 +1,14 @@
 export {
   CliArgument,
-  CliArgumentDefinition,
   getCliArgumentDefinitions,
 } from './argument.decorator.js';
-export {
-  CliCommand,
+export type { CliArgumentDefinition } from './argument.decorator.js';
+export { CliCommand, getCliCommandDefinition } from './command.decorator.js';
+export type {
   CliCommandDefinition,
   CliCommandOutputFunction,
   ParentCliCommandDefinition,
-  getCliCommandDefinition,
 } from './command.decorator.js';
 export * from './errors.js';
-export {
-  CliOption,
-  CliOptionDefinition,
-  getCliOptionDefinitions,
-} from './option.decorator.js';
+export { CliOption, getCliOptionDefinitions } from './option.decorator.js';
+export type { CliOptionDefinition } from './option.decorator.js';

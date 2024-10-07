@@ -1,5 +1,5 @@
-import { BaseConfiguration } from '@causa/workspace';
-import { PartialConfiguration } from '@causa/workspace/configuration';
+import type { BaseConfiguration } from '@causa/workspace';
+import type { PartialConfiguration } from '@causa/workspace/configuration';
 import { mkdir, writeFile } from 'fs/promises';
 import { dirname, join } from 'path';
 

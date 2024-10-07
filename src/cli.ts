@@ -1,7 +1,7 @@
 import { ModuleLoadingError, WorkspaceContext } from '@causa/workspace';
 import { CommanderError } from 'commander';
 import { showHelpForCommand } from './command-help.js';
-import { GlobalCliOptions, createBaseCommand } from './command.js';
+import { type GlobalCliOptions, createBaseCommand } from './command.js';
 import { CliContext } from './context/index.js';
 import { createLogger } from './logger.js';
 

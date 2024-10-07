@@ -1,13 +1,13 @@
 import { WorkspaceFunction } from '@causa/workspace';
 import {
-  ImplementableFunctionArguments,
-  ImplementableFunctionDefinitionConstructor,
+  type ImplementableFunctionArguments,
+  type ImplementableFunctionDefinitionConstructor,
 } from '@causa/workspace/function-registry';
 import { Command } from 'commander';
 import {
-  CliCommandDefinition,
-  CliCommandOutputFunction,
-  ParentCliCommandDefinition,
+  type CliCommandDefinition,
+  type CliCommandOutputFunction,
+  type ParentCliCommandDefinition,
   getCliArgumentDefinitions,
   getCliCommandDefinition,
   getCliOptionDefinitions,
