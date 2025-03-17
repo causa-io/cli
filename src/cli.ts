@@ -36,7 +36,6 @@ export async function runCli(
     workspaceContext?.logger ?? createLogger({ verbose: options.verbose });
 
   const program = createBaseCommand()
-    .allowExcessArguments(false)
     .configureOutput({
       writeErr: (str) => logger.error(str),
       writeOut: (str) => logger.info(str),

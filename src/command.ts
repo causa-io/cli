@@ -55,6 +55,7 @@ export function createBaseCommand(): Command {
  */
 export function parseGlobalOptions(args: string[]): GlobalCliOptions {
   return createBaseCommand()
+    .allowExcessArguments()
     .allowUnknownOption() // Command-specific options should be ignored.
     .helpOption(false) // The `--help` option shouldn't be caught.
     .exitOverride() // The process should not be exited.

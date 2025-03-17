@@ -31,29 +31,29 @@
     "test:cov": "npm run test -- --coverage"
   },
   "dependencies": {
-    "@causa/workspace": ">= 0.16.0 < 1.0.0",
-    "commander": "^12.1.0",
-    "pino": "^9.4.0",
-    "pino-pretty": "^11.2.2",
+    "@causa/workspace": ">= 0.16.1 < 1.0.0",
+    "commander": "^13.1.0",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.26",
-    "@swc/jest": "^0.2.36",
+    "@swc/core": "^1.11.10",
+    "@swc/jest": "^0.2.37",
     "@tsconfig/node20": "^20.1.4",
-    "@types/jest": "^29.5.13",
-    "@types/node": "^18.19.54",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^18.19.80",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "eslint": "^9.12.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
     "rimraf": "^6.0.1",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.0"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
   }
 }
