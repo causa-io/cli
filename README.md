@@ -141,13 +141,11 @@ This commands builds the artefact for the current project, and pushes it to the 
 
 While this command combines `cs build` and a push step, the "push" implementation is often language and/or project type-specific, so the corresponding Causa module should be depended upon. An exception to this is pushing Docker images for `serviceContainer` projects, which is supported by the core module.
 
-#### `cs events generateCode`
+#### `cs model generateCode`
 
-This commands generates interfaces for the events consumed and produced by a project.
+This commands generates code for the model (i.e. events and entities) used by the project.
 
-Listing events consumed and produced by a project is implemented by the core module for common project types, such as `serviceContainer` and `serverlessFunctions`. Some project types may require an additional module to be supported.
-
-Generating interfaces is language-specific and will require the corresponding module.
+Generating code is language-specific and will require the corresponding module. Some modules may provide more generators, such as test utilities for each event and entity in the model.
 
 ### Local tools
 
