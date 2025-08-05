@@ -2,7 +2,10 @@
   "name": "@causa/cli",
   "version": "0.6.1",
   "description": "Exposes the command line interface for the Causa (`cs`) command.",
-  "repository": "github:causa-io/cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/causa-io/cli.git"
+  },
   "license": "ISC",
   "type": "module",
   "engines": {
@@ -20,7 +23,7 @@
     "README.md"
   ],
   "bin": {
-    "cs": "./dist/bootstrap/cs.bin.js"
+    "cs": "dist/bootstrap/cs.bin.js"
   },
   "scripts": {
     "prebuild": "rimraf ./dist",
