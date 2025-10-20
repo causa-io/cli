@@ -1,4 +1,4 @@
-import { pino } from 'pino';
+import { pino, type Logger } from 'pino';
 import pretty, { PinoPretty } from 'pino-pretty';
 
 /**
@@ -15,7 +15,7 @@ export function createLogger({
    * Whether the commands should output additional logs.
    */
   verbose?: boolean;
-} = {}): pino.Logger {
+} = {}): Logger {
   return pino(
     { level: verbose ? 'debug' : 'info' },
     // `pino-pretty` types seem to be a bit flaky, but the default export does contain the main function.
