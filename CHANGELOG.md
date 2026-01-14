@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Chore:
+
+- Upgrade dependencies.
+
 ## v0.6.3 (2025-10-20)
 
 Chore:
