@@ -22,6 +22,7 @@ describe('CliArgument decorator', () => {
         position: 2,
       };
       class MyFunction {
+        _context!: any;
         async _call(): Promise<void> {}
         _supports() {
           return true;
@@ -48,6 +49,7 @@ describe('CliArgument decorator', () => {
 
     it('should throw when positions are not contiguous', () => {
       class MyFunction {
+        _context!: any;
         async _call(): Promise<void> {}
         _supports() {
           return true;

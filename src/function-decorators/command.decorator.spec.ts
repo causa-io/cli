@@ -21,6 +21,7 @@ describe('CliCommand decorator', () => {
       };
       @CliCommand(expectedCommand)
       class MyFunction {
+        _context!: any;
         _call(): void {}
         _supports() {
           return true;

@@ -21,7 +21,7 @@ describe('CliContext', () => {
     let command: Command;
     let workspace: WorkspaceContext;
     let context: CliContext;
-    let initialExitCode: number | undefined;
+    let initialExitCode: number | string | undefined;
 
     beforeEach(async () => {
       initialExitCode = process.exitCode;

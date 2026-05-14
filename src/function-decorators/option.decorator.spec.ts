@@ -24,6 +24,7 @@ describe('CliOption decorator', () => {
         description: '📕',
       };
       class MyFunction {
+        _context!: any;
         async _call(): Promise<void> {}
         _supports() {
           return true;
