@@ -21,3 +21,4 @@ javascript:
     update:
       packageTargets:
         '@types/node': minor
+        typescript: minor
