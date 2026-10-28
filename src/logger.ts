@@ -26,6 +26,10 @@ export function createLogger({
       destination: process.stderr,
       // Simple trick to ensure that the level always take 5 characters and that messages are aligned.
       customLevels: { DEBUG: 20, 'INFO ': 30, 'WARN ': 40, ERROR: 50 },
+      // The default message formatting strips control characters, including the escape sequences of commands outputs
+      // forwarded to the logger (e.g. colors). Messages returned by a function are not stripped.
+      messageFormat: (log, messageKey) =>
+        messageKey in log ? String(log[messageKey]) : '',
     }),
   );
 }
