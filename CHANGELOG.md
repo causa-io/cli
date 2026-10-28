@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Fixes:
+
+- Keep escape sequences (e.g. colors) in logged messages, such as the outputs of commands forwarded to the logger.
+
 ## v1.0.1-beta.1 (2026-10-09)
 
 Chore:
